@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import shortid from "shortid";
 import { ToastContainer, toast } from 'react-toastify';
@@ -31,10 +31,10 @@ export const App = () => {
       ? toast.warn(`${name} is already in contacts`, { theme: "colored", })
       : setContacts(prevState => [newContact, ...prevState]);
   };
-  const doFiltering = useMemo(() => {
+  const doFiltering = () => {
     const normalizedFilter = filter.toLowerCase();
     return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
-  }, [filter, contacts]);
+  };
 
   return (
     <Box as="section"
@@ -58,7 +58,7 @@ export const App = () => {
           ?
           <>
             <Filter filter={filter} initialiseFilter={setFilter} />
-            <ContactList visibleContacts={doFiltering} deleteContact={setContacts} />
+            <ContactList visibleContacts={doFiltering()} deleteContact={setContacts} />
           </>
           :
           <WarningMessage>Looks like you don`t have any contacts yet or just clear them all. Please add new contact.</WarningMessage>}
